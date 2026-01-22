@@ -36,11 +36,11 @@ public class UserController {
     public User update(@RequestBody @Valid User newUser) {
         if (users.containsKey(newUser.getId())) {
             users.put(newUser.getId(),newUser);
-            log.info("Обновлён фильм с id={}: {}", newUser.getId(), newUser);
+            log.info("Обновлён пользователь с id={}: {}", newUser.getId(), newUser);
             return newUser;
         } else {
-            log.warn("Фильм с id={} не найден для обновления", newUser.getId());
-            throw new ValidationException("Фильм не найден");
+            log.warn("Пользователь с id={} не найден для обновления", newUser.getId());
+            throw new ValidationException("Пользователь с id=" + newUser.getId() + " не найден");
         }
     }
 

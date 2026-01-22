@@ -18,12 +18,14 @@ import java.util.Map;
 public class FilmController {
     private final Map<Integer,Film> films = new HashMap<>();
     private int currentId = 1;
+    private static final LocalDate EARLIEST_RELEASE_DATE = LocalDate.of(1895, 12, 28);
+    private static final String ERROR_INVALID_RELEASE_DATE = "Дата релиза не может быть раньше 28.12.1895";
 
     @PostMapping
     public Film create(@RequestBody @Valid Film film) {
-        if (film.getReleaseDate() != null && film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
+        if (film.getReleaseDate() != null && film.getReleaseDate().isBefore(EARLIEST_RELEASE_DATE)) {
             log.warn("Некорректная дата релиза: {}", film.getReleaseDate());
-            throw new ValidationException("Дата релиза не может быть раньше 28.12.1895");
+            throw new ValidationException(ERROR_INVALID_RELEASE_DATE);
         }
         int id = getNextId();
         film.setId(id);
@@ -40,9 +42,9 @@ public class FilmController {
 
      @PutMapping
      public Film update(@RequestBody @Valid Film newFilm) {
-         if (newFilm.getReleaseDate() != null && newFilm.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
+         if (newFilm.getReleaseDate() != null && newFilm.getReleaseDate().isBefore(EARLIEST_RELEASE_DATE)) {
              log.warn("Некорректная дата релиза при обновлении: {}", newFilm.getReleaseDate());
-             throw new ValidationException("Дата релиза не может быть раньше 28.12.1895");
+             throw new ValidationException(ERROR_INVALID_RELEASE_DATE);
          }
          if (films.containsKey(newFilm.getId())) {
              films.put(newFilm.getId(),newFilm);
@@ -50,7 +52,7 @@ public class FilmController {
              return newFilm;
          } else {
              log.warn("Фильм с id={} не найден для обновления", newFilm.getId());
-             throw new ValidationException("Фильм не найден");
+             throw new ValidationException("Фильм с id=" + newFilm.getId() + " не найден");
          }
      }
 
