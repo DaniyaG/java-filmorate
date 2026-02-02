@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class Film {
-    Integer id;
+    Long id;
 
     @NotBlank(message = "Название не может быть пустым")
     String name;
@@ -24,4 +26,18 @@ public class Film {
 
     @Positive(message = "Продолжительность должна быть положительным числом")
     Integer duration;
+
+    Set<Long> likes = new HashSet<>();
+
+    public void addLike(long userId) {
+        likes.add(userId);
+    }
+
+    public void removeLike(long userId) {
+        likes.remove(userId);
+    }
+
+    public int getLikesCount() {
+        return likes.size();
+    }
 }
