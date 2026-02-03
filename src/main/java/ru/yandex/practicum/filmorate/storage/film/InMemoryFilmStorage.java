@@ -43,7 +43,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             return film;
         } else {
             log.warn("Фильм с id={} не найден для обновления", film.getId());
-            throw new NotFoundException("Фильм с id=" + film.getId() + " не найден");
+            throw new NotFoundException(String.format("Фильм с id=%d не найден", film.getId()));
         }
     }
 
@@ -54,7 +54,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.info("Удален фильм с id={}", id);
         } else {
             log.warn("Фильм с id={} не найден для удаления", id);
-            throw new NotFoundException("Фильм с id=" + id + " не найден");
+            throw new NotFoundException(String.format("Фильм с id=%d не найден", id));
         }
     }
 
@@ -62,7 +62,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film getFilmById(long id) {
         Film film = films.get(id);
         if (film == null) {
-            throw new NotFoundException("Фильм с id=" + id + " не найден");
+            throw new NotFoundException(String.format("Фильм с id=%d не найден", id));
         }
         return film;
     }

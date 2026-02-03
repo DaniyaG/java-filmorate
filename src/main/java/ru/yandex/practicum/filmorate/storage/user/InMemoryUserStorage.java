@@ -30,7 +30,7 @@ public class InMemoryUserStorage implements UserStorage {
             return user;
         } else {
             log.warn("Пользователь с id={} не найден для обновления", user.getId());
-            throw new NotFoundException("Пользователь с id=" + user.getId() + " не найден");
+            throw new NotFoundException(String.format("Пользователь с id=%d не найден", user.getId()));
         }
     }
 
@@ -40,7 +40,7 @@ public class InMemoryUserStorage implements UserStorage {
             users.remove(id);
             log.info("Удален пользователь с id={}", id);
         } else {
-            throw new NotFoundException("Пользователь с id=" + id + " не найден");
+            throw new NotFoundException(String.format("Пользователь с id=%d не найден", id));
         }
     }
 
@@ -48,7 +48,7 @@ public class InMemoryUserStorage implements UserStorage {
     public User getUserById(long id) {
         User user = users.get(id);
         if (user == null) {
-            throw new NotFoundException("Пользователь с id=" + id + " не найден");
+            throw new NotFoundException(String.format("Пользователь с id=%d не найден", id));
         }
         return user;
     }

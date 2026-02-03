@@ -36,7 +36,7 @@ public class FilmService {
             log.info("Пользователь с id {} удалил лайк у фильма с id {}", userId, filmId);
         } else {
             log.warn("У фильма с id {} нет лайка от пользователя с id {}", filmId, userId);
-            throw new NotFoundException("У фильма с id=" + filmId + " нет лайка от пользователя с id=" + userId);
+            throw new NotFoundException(String.format("У фильма с id=%d нет лайка от пользователя с id=%d", filmId, userId));
         }
 
     }
