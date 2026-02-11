@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class User {
-    Integer id;
+    Long id;
 
     @NotBlank(message = "Логин не может быть пустым")
     @Pattern(regexp = "\\S+", message = "Логин не должен содержать пробелов")
@@ -26,10 +28,20 @@ public class User {
     @PastOrPresent(message = "Дата рождения не может быть в будущем")
     LocalDate birthday;
 
+    Set<Long> friends = new HashSet<>();
+
     public String getName() {
         if (name == null || name.isBlank()) {
             return login;
         }
         return name;
+    }
+
+    public void addFriend(long friendId) {
+        friends.add(friendId);
+    }
+
+    public void removeFriend(long friendId) {
+        friends.remove(friendId);
     }
 }
