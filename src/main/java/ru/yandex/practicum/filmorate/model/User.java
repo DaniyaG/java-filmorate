@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
@@ -28,7 +28,7 @@ public class User {
     @PastOrPresent(message = "Дата рождения не может быть в будущем")
     LocalDate birthday;
 
-    Set<Long> friends = new HashSet<>();
+    private Map<Long, FriendshipStatus> friends = new HashMap<>();
 
     public String getName() {
         if (name == null || name.isBlank()) {
@@ -37,11 +37,9 @@ public class User {
         return name;
     }
 
-    public void addFriend(long friendId) {
-        friends.add(friendId);
+    public FriendshipStatus getFriendshipStatus(Long id) {
+        return friends.get(id);
     }
 
-    public void removeFriend(long friendId) {
-        friends.remove(friendId);
-    }
+
 }

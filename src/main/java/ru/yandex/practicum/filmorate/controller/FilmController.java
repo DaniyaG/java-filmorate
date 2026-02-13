@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
 
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController {
     private final FilmService filmService;
+    private static final String LIKE_PATH = "/{id}/like/{userId}";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,27 +33,27 @@ public class FilmController {
     }
 
     @GetMapping
-    public List<Film> getAllFilms() {
+    public Collection<Film> getAllFilms() {
         log.info("Получен запрос на получение всех фильмов");
         return filmService.getAllFilms();
     }
 
     @GetMapping("/{id}")
-    public Film getFilmById(@PathVariable int id) {
+    public Film getFilmById(@PathVariable Long id) {
         log.info("Получен запрос на получение фильма с id: {}", id);
         return filmService.getFilmById(id);
     }
 
-    @PutMapping("/{id}/like/{userId}")
+    @PutMapping(LIKE_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addLike(@PathVariable int id, @PathVariable int userId) {
+    public void addLike(@PathVariable Long id, @PathVariable Long userId) {
         log.info("Получен запрос на добавление лайка фильму с id {} от пользователя с id {}", id, userId);
         filmService.addLike(id, userId);
     }
 
-    @DeleteMapping("/{id}/like/{userId}")
+    @DeleteMapping(LIKE_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteLike(@PathVariable int id, @PathVariable int userId) {
+    public void deleteLike(@PathVariable Long id, @PathVariable Long userId) {
         log.info("Получен запрос на удаление лайка у фильма с id {} от пользователя с id {}", id, userId);
         filmService.deleteLike(id, userId);
     }
@@ -61,5 +63,4 @@ public class FilmController {
         log.info("Получен запрос на получение {} популярных фильмов", count);
         return filmService.getPopularFilms(count);
     }
-
 }
