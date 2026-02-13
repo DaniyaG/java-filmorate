@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private static final String FRIENDS_PATH = "/{id}/friends/{friendId}";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,14 +44,14 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}/friends/{friendId}")
+    @PutMapping(FRIENDS_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("Получен запрос на добавление пользователя с id {} в друзья к пользователю с id {}", friendId, id);
         userService.addFriend(id, friendId);
     }
 
-    @DeleteMapping("/{id}/friends/{friendId}")
+    @DeleteMapping(FRIENDS_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("Получен запрос на удаление пользователя с id {} из друзей пользователя с id {}", friendId, id);

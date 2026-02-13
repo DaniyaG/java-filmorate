@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController {
     private final FilmService filmService;
+    private static final String LIKE_PATH = "/{id}/like/{userId}";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,14 +44,14 @@ public class FilmController {
         return filmService.getFilmById(id);
     }
 
-    @PutMapping("/{id}/like/{userId}")
+    @PutMapping(LIKE_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addLike(@PathVariable Long id, @PathVariable Long userId) {
         log.info("Получен запрос на добавление лайка фильму с id {} от пользователя с id {}", id, userId);
         filmService.addLike(id, userId);
     }
 
-    @DeleteMapping("/{id}/like/{userId}")
+    @DeleteMapping(LIKE_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) {
         log.info("Получен запрос на удаление лайка у фильма с id {} от пользователя с id {}", id, userId);
